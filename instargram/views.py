@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Instargram, Comment
 from .forms import InstargramForm, CommentForm
 
@@ -16,3 +16,57 @@ def index(request):
         'instargram_list' : instargram_list,
     }
     return render(request,'instargram/index.html', context)
+
+
+def create(request):
+        if request.method == "POST":
+            form = InstargramForm(request.POST)
+            if form.is_valid():
+                article = form.save(commit=False)
+                article.user = request.user
+                article.save()
+                
+                return redirect('instargram:detail', article.pk)
+        else:
+            form = InstargramForm()
+        context = {
+            'form':form,
+        }    
+        return render(request,'instargram/create.html',context)
+
+
+def detail(request, pk):
+    article = get_object_or_404(Instargram, pk=pk)
+    context = {
+        'article': article,
+    }    
+    return render(request,'instargram/detail.html', context)
+
+
+def delete(request, pk):
+    article = get_object_or_404(Instargram, pk=pk)
+    if request.user.is_authenticated:
+        if request.user == article.user:
+            article.delete()
+            return redirect('instargram:index')
+    return redirect('instargram:detail', article.pk)    
+
+def update(request, pk):
+    article = get_object_or_404(Instargram, pk=pk)
+    if request.user == article.user:
+        if request.method == 'POST':
+            form = InstargramForm(request.POST, instance=article)
+            if form.is_valid():
+                article = form.save()
+                return redirect('instargram:detail', article.pk)
+        else:
+            form = InstargramForm(instance=article)
+    else:
+        return redirect('instargram:index')
+        # return HttpResponseForbidden()
+    context = {
+        'form': form,
+        'article': article,
+    }
+    return render(request, 'instargram/update.html', context)
+        
