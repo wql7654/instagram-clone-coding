@@ -7,7 +7,7 @@ from django.contrib.auth.forms import (
     PasswordChangeForm,
 )
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 
@@ -48,4 +48,15 @@ def logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
     return redirect('instargram:index')
+
+
+def profile(request,username):
+    # 1. 현재 요청을 보낸 유저가 보고자하는 유저를 가져오기
+    User = get_user_model() #User 모델 == 클래스
+    profile_user = User.objects.get(username=username)
+    
+    context = {
+        'profile_user' : profile_user,
+    }
+    return render(request, 'accounts/profile.html', context)    
 

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+
+
+{% block content %}
+  <h2>Detail</h2>
+  <h3>{{ article.pk }} 번째 글</h3>
+  <hr>
+  <p>제목 : {{ article.title }}</p>
+  <p>내용 : {{ article.content }}</p>
+  <p>작성시각 : {{ article.created_at|naturalday }}</p>
+  <p>수정시각 : {{ article.updated_at|naturaltime }}</p>
+  <hr>
+    {% if request.user == article.user %}
+      <a href="{% url 'instargram:update' article.pk %}" class="btn btn-primary">[UPDATE]</a>
+      <form action="{% url 'instargram:delete' article.pk %}" method="POST">
+        {% csrf_token %}
+        <button class="btn btn-danger">DELETE</button>
+      </form>
+    {% endif %}
+
+  <hr>
+   <a href=" {% url 'accounts:profile' request.user.username %}">back</a>
+
+{% endblock  %}

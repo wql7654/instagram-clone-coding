@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ profile_user }}님의 페이지</h1>
+
+{% for article in profile_user.instargram_set.all %}
+  <div>
+  {{ article.title }}
+  {{ article.content }}
+  </div>
+
+{% endfor %}
+
+<div>
+<h5>게시글 작성</h5>
+<a href="{% url 'instargram:create' %}">[CREATE]</a>
+</div>
+
+
+{% endblock  %}
