@@ -6,7 +6,7 @@ class InstargramForm(forms.ModelForm):
 
     class Meta:
         model = Instargram
-        fields = ('title', 'content',)
+        fields = ('title', 'content','image',)
         # exclude = ('title',)
 
 

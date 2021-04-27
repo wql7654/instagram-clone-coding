@@ -3,11 +3,13 @@
 
 {% block content %}
   <h1>UPDATE</h1>
-  <form action="" method="POST">
+  <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form %}
     <input type="submit">
   </form>
   <hr>
-  <a href="{% url 'instargram:index' %}">[back]</a>
+  {% comment %} <a href="{% url 'instargram:index' %}">[back]</a> {% endcomment %}
+  
+  <a href="{% url 'instargram:detail' article.pk  %}">[back]</a>
 {% endblock %}

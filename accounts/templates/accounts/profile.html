@@ -5,9 +5,14 @@
 <h1>{{ profile_user }}님의 페이지</h1>
 
 {% for article in profile_user.instargram_set.all %}
-  <div>
+  <div class='container'>
   {{ article.title }}
   {{ article.content }}
+  <p>
+    {% if article.image %}
+      <img src="{{ article.image.url }}" alt="{{ article.image }}">
+    {% endif %}
+  </p>
   </div>
 
 {% endfor %}
@@ -15,6 +20,7 @@
 <div>
 <h5>게시글 작성</h5>
 <a href="{% url 'instargram:create' %}">[CREATE]</a>
+<a href="{% url 'instargram:index'  %}">[back]</a>
 </div>
 
 
