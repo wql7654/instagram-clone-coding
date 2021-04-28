@@ -20,7 +20,9 @@ def index(request):
 
 def create(request):
         if request.method == "POST":
+
             form = InstargramForm(request.POST, request.FILES)
+
             if form.is_valid():
                 article = form.save(commit=False)
                 article.user = request.user
@@ -55,7 +57,9 @@ def update(request, pk):
     article = get_object_or_404(Instargram, pk=pk)
     if request.user == article.user:
         if request.method == 'POST':
+
             form = InstargramForm(request.POST,request.FILES, instance=article)
+
             if form.is_valid():
                 article = form.save()
                 return redirect('instargram:detail', article.pk)

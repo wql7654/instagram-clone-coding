@@ -12,11 +12,13 @@
   <p>글 번호 : {{ article.pk }}</p>
   <p>글 제목 : {{ article.title }}</p>
   <p>글 내용 : {{ article.content }}</p>
+
   <p>
     {% if article.image %}
       <img src="{{ article.image.url }}" alt="{{ article.image }}">
     {% endif %}
   </p>
+
   <a href="{% url 'instargram:detail' article.pk %}">[DETAIL]</a>
   <hr>
 {% endfor %}
