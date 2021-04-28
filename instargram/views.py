@@ -73,4 +73,26 @@ def update(request, pk):
         'article': article,
     }
     return render(request, 'instargram/update.html', context)
+
+
+def like(request, pk):
+    instargram = get_object_or_404(Instargram, pk=pk)
+
+    if instargram.like_users.filter(pk=request.user.pk).exists():
+        instargram.like_users.remove(request.user)
+    else:
+        instargram.like_users.add(request.user)
+
+    return redirect('instargram:index')
+
+
+def detail_like(request, pk):
+    instargram = get_object_or_404(Instargram, pk=pk)
+
+    if instargram.like_users.filter(pk=request.user.pk).exists():
+        instargram.like_users.remove(request.user)
+    else:
+        instargram.like_users.add(request.user)
+
+    return redirect('instargram:detail', pk)
         
