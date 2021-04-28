@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import (
@@ -60,3 +60,18 @@ def profile(request,username):
     }
     return render(request, 'accounts/profile.html', context)    
 
+
+def follow(request, user_pk):
+    User = get_user_model() # User모델
+    me = request.user # 팔로우 하는 사람
+    counter = get_object_or_404(User, pk=user_pk)
+    if request.user.is_authenticated:
+        if me != counter: # 다를때
+            # 상대방 목록에 내가 있는지
+            if counter.followers.filter(pk=me.pk).exists():
+                counter.followers.remove(me) # 팔로우취소
+            else:
+                counter.followers.add(me) # 팔로우
+        # 상대방 프로필로 보냄
+        return redirect('accounts:profile', counter.username) 
+    return redirect('accounts:login')  # 로그인 안했으면

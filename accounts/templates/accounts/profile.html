@@ -2,8 +2,47 @@
 
 {% block content %}
 
-<h1>{{ profile_user }}님의 페이지</h1>
+<h2>{{ profile_user }}님의 페이지</h2>
+<div class='mx-5'>
+<header class='d-flex'>
+<div >
+ <figure class="figure">
+  <img src="..." class="figure-img img-fluid rounded" alt="...">
+  <figcaption class="figure-caption">A caption for the above image.</figcaption>
+</figure>
+</div>
+<section>
+  <div class='d-flex' >
+    <h2>{{ profile_user }}</h2>
+    <div class='d-flex'>
+      <div>
+        <button>메세지 보내기</button>
+      </div>
+      <div>
+        {% comment %} 팔로우 버튼 {% endcomment %}
+        <form action="{% url 'accounts:follow' profile_user.pk %}" method="POST">
+        {% csrf_token %}
+          {% if request.user not in  profile_user.followers.all %}
+            <button >팔로우</button>
+          {% else %}
+            <button >팔로우 취소</button>
+          {% endif %}
+        </form>
+      </div>
+    </div>
+  </div>
+  {% comment %} 게시글, 팔로우, 팔로워 목록 {% endcomment %}
+  <ul class='d-flex list-group list-group-horizontal' >
+    <li class="list-group-item">게시물 {{ profile_user.instargram_set.all.count }}</li>
+    <li class="list-group-item">팔로워 {{ profile_user.followers.all.count }}</li>
+    <li class="list-group-item">팔로우 {{ profile_user.followings.all.count }}</li>
+  </ul>
+  
+</section>
+</header>
 
+
+{% comment %} 글 {% endcomment %}
 {% for article in profile_user.instargram_set.all %}
 
   <div class='container'>
@@ -20,13 +59,13 @@
 
 {% endfor %}
 
-<div>
-<h5>게시글 작성</h5>
-<a href="{% url 'instargram:create' %}">[CREATE]</a>
+  <div>
+  <h5>게시글 작성</h5>
+  <a href="{% url 'instargram:create' %}">[CREATE]</a>
 
-<a href="{% url 'instargram:index'  %}">[back]</a>
+  <a href="{% url 'instargram:index'  %}">[back]</a>
+
+  </div>
 
 </div>
-
-
 {% endblock  %}
