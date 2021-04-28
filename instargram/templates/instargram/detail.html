@@ -9,6 +9,14 @@
   <hr>
   <p>제목 : {{ article.title }}</p>
   <p>내용 : {{ article.content }}</p>
+
+  <p>
+    {% if article.image %}
+      <img src="{{ article.image.url }}" alt="{{ article.image }}">
+    {% endif %}
+  </p>
+  <hr>
+
   <p>작성시각 : {{ article.created_at|naturalday }}</p>
   <p>수정시각 : {{ article.updated_at|naturaltime }}</p>
   <hr>
@@ -21,6 +29,10 @@
     {% endif %}
 
   <hr>
-   <a href=" {% url 'accounts:profile' request.user.username %}">back</a>
+
+  {% comment %} 메인 - 글 - detail -> 메인
+  프로필- 글- detail -> 프로필 {% endcomment %}
+   {% comment %} <a href=" {% url 'accounts:profile' request.user.username %}">back</a> {% endcomment %}
+
 
 {% endblock  %}
