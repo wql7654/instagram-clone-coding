@@ -47,7 +47,7 @@ def signup(request):
 def logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
-    return redirect('instargram:index')
+    return redirect('accounts:login')
 
 
 def profile(request,username):
