@@ -9,4 +9,6 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     # profile
     path('<str:username>/', views.profile, name='profile'),
+    # follow
+    path('<int:user_pk>/follow/', views.follow, name='follow'),
 ]
